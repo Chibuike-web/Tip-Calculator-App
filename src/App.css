@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+@theme {
+	--color-cyan-300: hsl(189, 41%, 97%);
+	--color-cyan-400: hsl(185, 41%, 84%);
+	--color-cyan-500: hsl(184, 14%, 56%);
+	--color-cyan-600: hsl(186, 14%, 43%);
+	--color-cyan-700: hsl(172, 67%, 45%);
+	--color-cyan-800: hsl(183, 100%, 15%);
+}
+
+body {
+	font-family: "Space Mono", serif;
+	font-weight: 400;
+	font-size: 24px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+input[type="number"] {
+	-moz-appearance: textfield; /* Firefox */
+}
+
+input[type="number"]:focus {
+	outline: none;
+	border: none;
+}
