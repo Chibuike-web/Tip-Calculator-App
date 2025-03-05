@@ -7,6 +7,12 @@
 	--color-cyan-600: hsl(186, 14%, 43%);
 	--color-cyan-700: hsl(172, 67%, 45%);
 	--color-cyan-800: hsl(183, 100%, 15%);
+
+	--breakpoint-sm: 639px;
+	--breakpoint-md: 767px;
+	--breakpoint-lg: 1023px;
+	--breakpoint-xl: 1279px;
+	--breakpoint-2xl: 1535px;
 }
 
 body {
