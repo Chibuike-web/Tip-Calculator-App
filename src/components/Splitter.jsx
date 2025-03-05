@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Dollar from "../assets/icon-dollar.svg";
 import Profile from "../assets/icon-person.svg";
 
 export default function Splitter() {
+	const [bill, setBill] = useState("");
+	const [numberOfPeople, setNumberOfPeople] = useState("");
+	const [custom, setCustom] = useState("");
+	const handleChange = (e, id) => {
+		const { value } = e.target;
+		if (id === "bill") {
+			setBill(value);
+		} else if (id === "numberOfPeople") {
+			setNumberOfPeople(value);
+		}
+	};
+
 	return (
 		<main className="w-full flex justify-between max-w-[920px] bg-white px-10 py-8 rounded-3xl">
 			{/* Input Section */}
 			<section className="w-full max-w-[380px] flex flex-col gap-12">
-				<TextInput icon={Dollar} label="Bill" id="bill" />
+				<TextInput
+					icon={Dollar}
+					label="Bill"
+					id="bill"
+					bill={bill}
+					setBill={setBill}
+					handleChange={handleChange}
+				/>
 
 				<fieldset>
 					<legend className="font-bold text-cyan-600 text-[16px] mb-2">Select Tip %</legend>
@@ -21,7 +40,14 @@ export default function Splitter() {
 					</div>
 				</fieldset>
 
-				<TextInput icon={Profile} label="Number of People" id="numPeople" />
+				<TextInput
+					icon={Profile}
+					label="Number of People"
+					id="numPeople"
+					numberOfPeople={numberOfPeople}
+					setNumberOfPeople={setNumberOfPeople}
+					handleChange={handleChange}
+				/>
 			</section>
 
 			{/* Results Section */}
@@ -38,7 +64,16 @@ export default function Splitter() {
 	);
 }
 
-function TextInput({ label, icon, id }) {
+function TextInput({
+	label,
+	icon,
+	id,
+	bill,
+	setBill,
+	numberOfPeople,
+	setNumberOfPeople,
+	handleChange,
+}) {
 	return (
 		<div className="w-full">
 			<label htmlFor={id} className="font-bold text-[16px] text-cyan-600">
@@ -50,8 +85,10 @@ function TextInput({ label, icon, id }) {
 					type="number"
 					id={id}
 					name={id}
+					value={id === "bill" ? bill : id === "numberOfPeople" ? numberOfPeople : ""}
 					className="w-full text-right font-bold text-cyan-800 placeholder:font-bold placeholder:text-cyan-500 bg-transparent outline-none"
 					placeholder="0"
+					onChange={(e) => handleChange(e, id)}
 				/>
 			</div>
 		</div>
