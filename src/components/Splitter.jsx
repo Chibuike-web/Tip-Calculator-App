@@ -5,6 +5,7 @@ import Profile from "../assets/icon-person.svg";
 export default function Splitter() {
 	const [bill, setBill] = useState("");
 	const [numberOfPeople, setNumberOfPeople] = useState("");
+	const [focusedInput, setFocusedInput] = useState("");
 	const [custom, setCustom] = useState("");
 	const handleChange = (e, id) => {
 		const { value } = e.target;
@@ -13,6 +14,10 @@ export default function Splitter() {
 		} else if (id === "numberOfPeople") {
 			setNumberOfPeople(value);
 		}
+	};
+
+	const handleFocus = (id) => {
+		setFocusedInput(id);
 	};
 
 	return (
@@ -24,8 +29,9 @@ export default function Splitter() {
 					label="Bill"
 					id="bill"
 					bill={bill}
-					setBill={setBill}
 					handleChange={handleChange}
+					handleFocus={handleFocus}
+					focusedInput={focusedInput}
 				/>
 
 				<fieldset>
@@ -45,8 +51,9 @@ export default function Splitter() {
 					label="Number of People"
 					id="numPeople"
 					numberOfPeople={numberOfPeople}
-					setNumberOfPeople={setNumberOfPeople}
 					handleChange={handleChange}
+					focusedInput={focusedInput}
+					handleFocus={handleFocus}
 				/>
 			</section>
 
@@ -57,7 +64,7 @@ export default function Splitter() {
 						<OutputDisplay label="Tip Amount" subLabel="/person" value="$0.00" />
 						<OutputDisplay label="Total" subLabel="/person" value="$0.00" />
 					</div>
-					<ResetButton />
+					<ResetButton focusedInput={focusedInput} />
 				</div>
 			</aside>
 		</main>
@@ -69,17 +76,20 @@ function TextInput({
 	icon,
 	id,
 	bill,
-	setBill,
 	numberOfPeople,
-	setNumberOfPeople,
 	handleChange,
+	focusedInput,
+	handleFocus,
 }) {
 	return (
 		<div className="w-full">
 			<label htmlFor={id} className="font-bold text-[16px] text-cyan-600">
 				{label}
 			</label>
-			<div className="flex justify-between items-center w-full px-4 py-3.5 mt-2 h-[44px] bg-cyan-300">
+			<div
+				className="flex justify-between items-center rounded-[6px] w-full px-4 py-3.5 mt-2 h-[44px] bg-cyan-300"
+				style={{ border: focusedInput === id ? "2px #26C0AB solid" : "" }}
+			>
 				<img src={icon} alt={label} className="max-h-[16px]" />
 				<input
 					type="number"
@@ -89,6 +99,7 @@ function TextInput({
 					className="w-full text-right font-bold text-cyan-800 placeholder:font-bold placeholder:text-cyan-500 bg-transparent outline-none"
 					placeholder="0"
 					onChange={(e) => handleChange(e, id)}
+					onFocus={() => handleFocus(id)}
 				/>
 			</div>
 		</div>
@@ -122,11 +133,11 @@ function OutputDisplay({ label, subLabel, value }) {
 	);
 }
 
-function ResetButton() {
+function ResetButton({ focusedInput }) {
 	return (
 		<button
 			type="reset"
-			disabled
+			disabled={!focusedInput}
 			className="h-[48px] rounded-[4px] font-bold w-full text-[hsl(183,100%,15%)] bg-[hsl(172,67%,45%)] disabled:opacity-50"
 		>
 			RESET
