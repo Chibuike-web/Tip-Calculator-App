@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dollar from "../assets/icon-dollar.svg";
 import Profile from "../assets/icon-person.svg";
 
@@ -7,11 +7,21 @@ export default function Splitter() {
 	const [numberOfPeople, setNumberOfPeople] = useState("");
 	const [focusedInput, setFocusedInput] = useState("");
 	const [error, setError] = useState("");
-	const [customInput, setCustomInput] = useState(false);
 	const [customInputValue, setCustomInputValue] = useState("");
 	const [tipAmount, setTipAmount] = useState("0.00");
 	const [total, setTotal] = useState("0.00");
 	const [activeTip, setActiveTip] = useState("");
+	const [tipValue, setTipValue] = useState("");
+
+	useEffect(() => {
+		if (bill && tipValue && numberOfPeople > 0) {
+			const newTipAmount = ((tipValue / 100) * parseFloat(bill)) / parseFloat(numberOfPeople);
+			setTipAmount(newTipAmount.toFixed(2));
+			const newTotal =
+				((tipValue / 100) * parseFloat(bill) + parseFloat(bill)) / parseFloat(numberOfPeople);
+			setTotal(newTotal.toFixed(2));
+		}
+	}, [bill, activeTip, tipValue, customInputValue, numberOfPeople]);
 
 	const handleChange = (e, id) => {
 		const { value } = e.target;
@@ -27,6 +37,7 @@ export default function Splitter() {
 			}
 		} else if (id === "customInput") {
 			setCustomInputValue(value);
+			setTipValue(value);
 		}
 	};
 
@@ -40,14 +51,20 @@ export default function Splitter() {
 
 	const handleReset = (e) => {
 		e.preventDefault();
+		setBill("");
+		setNumberOfPeople("");
+		setActiveTip("");
+		setTipValue("");
+		setTipAmount("0.00");
+		setTotal("0.00");
 	};
 
 	const handleButtonClick = (tip) => {
 		if (tip === "Custom") {
 			setActiveTip("Custom");
-			setCustomInputValue("");
 		} else {
 			setActiveTip(tip);
+			setTipValue(parseFloat(tip));
 			setCustomInputValue("");
 		}
 	};
@@ -135,7 +152,7 @@ export default function Splitter() {
 						<OutputDisplay label="Tip Amount" subLabel="/person" value={tipAmount} />
 						<OutputDisplay label="Total" subLabel="/person" value={total} />
 					</div>
-					<ResetButton bill={bill} handleReset={handleReset} />
+					<ResetButton bill={bill} handleReset={handleReset} tipValue={tipValue} />
 				</div>
 			</aside>
 		</main>
@@ -152,7 +169,6 @@ function TextInput({
 	focusedInput,
 	handleFocus,
 	handleBlur,
-	customInput,
 	customInputValue,
 	autoFocus,
 	error = "",
@@ -240,7 +256,7 @@ function OutputDisplay({ label, subLabel, value }) {
 	);
 }
 
-function ResetButton({ bill, handleReset }) {
+function ResetButton({ bill, handleReset, tipValue }) {
 	return (
 		<button
 			type="reset"
