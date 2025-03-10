@@ -20,10 +20,6 @@ This is a **Tip Calculator App** built with **React + Vite**. It allows users to
 - **JavaScript (ES6+)**
 - **CSS** (Styling)
 
-## 📸 Screenshots
-
-_(Add screenshots or a GIF showing the app in action)_
-
 ## 💻 Setup & Installation
 
 1. Clone the repository:
@@ -51,17 +47,6 @@ npm run build
 
 This generates a **dist/** folder with the production-ready files.
 
-## 🚀 Deploying to Vercel
-
-1. Install Vercel CLI (if not installed):
-   ```sh
-   npm install -g vercel
-   ```
-2. Deploy the project:
-   ```sh
-   vercel --prod
-   ```
-
 ## 🔗 Live Demo
 
 (https://tip-calculator-app-one-livid.vercel.app/)
@@ -69,11 +54,5 @@ This generates a **dist/** folder with the production-ready files.
 ## 🤝 Contributing
 
 Feel free to fork this repository and submit a **pull request** if you’d like to contribute!
-
-## 📝 License
-
-This project is licensed under the **MIT License**.
-
----
 
 **Created by [Chibuike-web](https://github.com/Chibuike-web)**
