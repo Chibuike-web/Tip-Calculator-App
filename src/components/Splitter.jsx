@@ -14,14 +14,28 @@ export default function Splitter() {
 	const [tipValue, setTipValue] = useState("");
 
 	useEffect(() => {
-		if (bill && tipValue && numberOfPeople > 0) {
-			const newTipAmount = ((tipValue / 100) * parseFloat(bill)) / parseFloat(numberOfPeople);
-			setTipAmount(newTipAmount.toFixed(2));
-			const newTotal =
-				((tipValue / 100) * parseFloat(bill) + parseFloat(bill)) / parseFloat(numberOfPeople);
-			setTotal(newTotal.toFixed(2));
+		if (!bill || !tipValue || numberOfPeople <= 0) {
+			setTipAmount("0.00");
+			setTotal("0.00");
+			return;
 		}
-	}, [bill, activeTip, tipValue, customInputValue, numberOfPeople]);
+
+		const billFloat = parseFloat(bill);
+		const peopleFloat = parseFloat(numberOfPeople);
+		const tipFloat = parseFloat(tipValue);
+
+		if (isNaN(billFloat) || isNaN(peopleFloat) || isNaN(tipFloat)) {
+			setTipAmount("0.00");
+			setTotal("0.00");
+			return;
+		}
+
+		const newTipAmount = ((tipFloat / 100) * billFloat) / peopleFloat;
+		const newTotal = (billFloat + (tipFloat / 100) * billFloat) / peopleFloat;
+
+		setTipAmount(newTipAmount.toFixed(2));
+		setTotal(newTotal.toFixed(2));
+	}, [bill, tipValue, numberOfPeople]);
 
 	const handleChange = (e, id) => {
 		const { value } = e.target;
@@ -69,9 +83,9 @@ export default function Splitter() {
 	};
 
 	return (
-		<main className="flex max-md:flex-col gap-[3rem] max-md:w-max justify-between w-full max-w-[57.5rem] bg-white px-[2rem] py-[2rem] rounded-[1.5rem]">
+		<main className="flex max-md:flex-col gap-[3rem] max-md:w-full max-md:items-center justify-between w-full max-w-[57.5rem] bg-white px-[2rem] py-[2rem] rounded-[1.5rem]">
 			{/* Input Section */}
-			<section className="w-full max-w-[23.75rem] flex flex-col gap-[3rem]">
+			<section className="w-full max-w-[23.75rem] max-md:max-w-full flex flex-col gap-[3rem]">
 				<TextInput
 					icon={Dollar}
 					label="Bill"
@@ -85,7 +99,7 @@ export default function Splitter() {
 
 				<fieldset>
 					<legend className="font-bold text-cyan-600 text-[1rem] mb-[0.5rem]">Select Tip %</legend>
-					<div className="grid grid-cols-2 lg:grid-cols-3 gap-y-[0.875rem] place-items-center gap-x-[0.8125rem] w-full">
+					<div className="grid grid-cols-3 max-md:grid-cols-2 gap-y-[0.875rem] place-items-center gap-x-[0.8125rem] w-full">
 						<TipButton
 							tip="5%"
 							handleButtonClick={handleButtonClick}
@@ -145,7 +159,7 @@ export default function Splitter() {
 			</section>
 
 			{/* Results Section */}
-			<aside className="w-full min-h-full max-w-[25.8125rem] bg-cyan-800 rounded-[1rem] p-[2.5rem] max-md:p-6">
+			<aside className="w-full min-h-full max-w-[25.8125rem] max-md:max-w-full bg-cyan-800 rounded-[1rem] p-[2.5rem] max-md:p-6">
 				<div className="flex flex-col h-full max-md:gap-10">
 					<div className="flex flex-col gap-[3rem] mb-auto">
 						<OutputDisplay label="Tip Amount" subLabel="/person" value={tipAmount} />
@@ -185,7 +199,7 @@ function TextInput({
 			</label>
 			<div
 				className={`flex justify-between items-center rounded-[0.375rem] w-full px-[1rem] py-[0.875rem] h-[3rem] bg-cyan-300 ${
-					!error && !window.matchMedia("(hover: none)").matches
+					!error
 						? "hover:border-[0.125rem] hover:border-[#26C0AB]"
 						: "border-[0.125rem] border-red-400"
 				}`}
