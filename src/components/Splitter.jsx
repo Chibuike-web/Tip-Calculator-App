@@ -132,6 +132,7 @@ export default function Splitter() {
 								handleFocus={handleFocus}
 								handleChange={handleChange}
 								handleBlur={handleBlur}
+								focusedInput={focusedInput}
 								autoFocus
 							/>
 						) : (
