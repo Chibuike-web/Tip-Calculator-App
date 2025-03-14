@@ -1,4 +1,4 @@
-# Tip Calculator App
+# Frontend Mentor - Tip calculator app solution
 
 ## 📌 Overview
 
@@ -18,7 +18,7 @@ This is a **Tip Calculator App** built with **React + Vite**. It allows users to
 - **React** (UI framework)
 - **Vite** (Fast build tool)
 - **JavaScript (ES6+)**
-- **CSS** (Styling)
+- **TailwindCSS v4.0** (Styling)
 
 ## 💻 Setup & Installation
 
