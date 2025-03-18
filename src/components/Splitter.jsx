@@ -27,6 +27,7 @@ export default function Splitter() {
 		if (isNaN(billFloat) || isNaN(peopleFloat) || isNaN(tipFloat)) {
 			setTipAmount("0.00");
 			setTotal("0.00");
+			setCustomInputValue("");
 			return;
 		}
 
@@ -70,6 +71,7 @@ export default function Splitter() {
 		setTipValue("");
 		setTipAmount("0.00");
 		setTotal("0.00");
+		setCustomInputValue("");
 	};
 
 	const handleButtonClick = (tip) => {
